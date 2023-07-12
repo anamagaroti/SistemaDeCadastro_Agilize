@@ -1,38 +1,108 @@
-﻿using SistemaDeCadastro_Agilize.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaDeCadastro_Agilize.Data;
+using SistemaDeCadastro_Agilize.Models;
 using SistemaDeCadastro_Agilize.Repository.Interfaces;
 
 namespace SistemaDeCadastro_Agilize.Repository
 {
     public class PositionRepository : IPositionRepository
     {
-        public Task<PositionModel> ConsultPosition(PositionModel NamePosition)
+        private readonly SistemasCadastroDBContex _DbContext;
+
+        public PositionRepository(SistemasCadastroDBContex DbContext)
         {
-            throw new NotImplementedException();
+            _DbContext = DbContext;
         }
 
-        public Task<PositionModel> DeletePosition(PositionModel positionModel, PositionModel IsPosition)
+        //precisa terminar a logica de buscar um cargo e trazer a lista de tarefas
+        public async Task<PositionModel> ConsultPosition(int IdPosition, List<string> NameTask)
         {
-            throw new NotImplementedException();
+           await _DbContext.Position.FirstOrDefaultAsync(x => x.IdPosition == IdPosition);
+
+
+            TaskModel task = new TaskModel();
+           
+           foreach (var item in NameTask)
+            {
+
+            }
+            
         }
 
-        public Task<PositionModel> FetchPositionId(PositionModel IdPosition)
+        public async Task<bool> DeletePosition(long IsPosition)
         {
-            throw new NotImplementedException();
+            PositionModel Id = await FetchPositionId(IsPosition);
+
+            if(Id == null)
+            {
+                throw new Exception("Não foi possível deletar essa posição");
+            }
+
+            _DbContext.Position.Remove(Id);
+            _DbContext.SaveChanges();
+
+            return true;
         }
 
-        public Task<PositionModel> ListPosition(PositionModel positionModel)
+        public async Task<PositionModel> FetchPositionId(long IdPosition)
         {
-            throw new NotImplementedException();
+            return await _DbContext.Position.FirstOrDefaultAsync(x => x.IdPosition == IdPosition);
         }
 
-        public Task<PositionModel> RegisterPosition(PositionModel positionModel)
+        public async Task<List<PositionModel>> ListPosition()
         {
-            throw new NotImplementedException();
+            return await _DbContext.Position.ToListAsync();
         }
 
-        public Task<PositionModel> UpdatePosition(PositionModel positionModel, PositionModel IdPosition)
+        public async Task<PositionModel> RegisterPosition(PositionModel positionModel, List<int> ListIdTask)
         {
-            throw new NotImplementedException();
+            await _DbContext.Position.AddAsync(positionModel);
+            await _DbContext.SaveChangesAsync();
+
+            PositionTaskModel positionTask = new PositionTaskModel();
+
+            foreach (var task in ListIdTask){  
+                positionTask.IdPosition = positionModel.IdPosition;
+                positionTask.IdTask = task;
+
+                await _DbContext.PositionAndTask.AddAsync(positionTask);
+                await _DbContext.SaveChangesAsync();
+            }
+
+            return positionModel;
+        }
+
+        public async Task<PositionModel> UpdatePositionAndTask(PositionModel positionModel, long IdPosition, List<int> IdTask)
+        {
+            PositionModel position = await FetchPositionId(IdPosition);
+
+            position.NamePosition = positionModel.NamePosition;
+            _DbContext.Update(position);
+            await _DbContext.SaveChangesAsync();
+
+            PositionTaskModel positionTask = new PositionTaskModel();
+
+            foreach (var task in IdTask) {
+
+                await _DbContext.PositionAndTask.FirstOrDefaultAsync(x => x.IdPosition == IdPosition);
+                positionTask.IdTask = task;
+
+                if (task == null)
+                {
+                    positionTask.IdPosition = positionModel.IdPosition;
+                    positionTask.IdTask = task;
+
+                    _DbContext.PositionAndTask.AddAsync(positionTask);
+                    await _DbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    _DbContext.Update(positionTask);
+                    await _DbContext.SaveChangesAsync();
+                }
+            }
+
+            return positionModel;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SistemaDeCadastro_Agilize.Models;
+using SistemaDeCadastro_Agilize.Models.Tasks;
 using SistemaDeCadastro_Agilize.Repository.Interfaces;
 
 namespace SistemaDeCadastro_Agilize.Controllers
@@ -16,23 +16,23 @@ namespace SistemaDeCadastro_Agilize.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<VehicleModel>>> BuscarTodosVeiculos()
+        public async Task<ActionResult<List<RegisterVehicleModel>>> BuscarTodosVeiculos()
         {
-            List<VehicleModel> vehicle = await _vehicleRepository.BuscarTodosVeiculos();
+            List<RegisterVehicleModel> vehicle = await _vehicleRepository.BuscarTodosVeiculos();
 
             return Ok(vehicle);
         }
 
         [HttpGet("{placa}/associate/{id}")]
-        public async Task<ActionResult<List<VehicleModel>>> BuscarPorId(string placa, long id)
+        public async Task<ActionResult<List<RegisterVehicleModel>>> BuscarPorId(string placa, long id)
         {
-            VehicleModel vehicle = await _vehicleRepository.BuscarPorPlacaVehicle(placa, id);
+            RegisterVehicleModel vehicle = await _vehicleRepository.BuscarPorPlacaVehicle(placa, id);
 
             return Ok(vehicle);
         }
 
         [HttpPost("associado/{cpf}/vehicles")]
-        public async Task<ActionResult> AdicionarNovoVeiculo(long cpf, [FromBody] List<VehicleModel> vehicles)
+        public async Task<ActionResult> AdicionarNovoVeiculo(long cpf, [FromBody] List<RegisterVehicleModel> vehicles)
         {
             await _vehicleRepository.AdicionarNovoVeiculo(cpf, vehicles);
 
@@ -40,11 +40,11 @@ namespace SistemaDeCadastro_Agilize.Controllers
         }
 
         [HttpPut("{idVehicle}")]
-        public async Task<ActionResult<VehicleModel>> AtualizarVehicle([FromBody] VehicleModel vehicle, long IdVehicle)
+        public async Task<ActionResult<RegisterVehicleModel>> AtualizarVehicle([FromBody] RegisterVehicleModel vehicle, long IdVehicle)
         {
             vehicle.IdVehicle = IdVehicle;
 
-            VehicleModel updatedVehicle = await _vehicleRepository.AtualizarVehicle(vehicle, IdVehicle);
+            RegisterVehicleModel updatedVehicle = await _vehicleRepository.AtualizarVehicle(vehicle, IdVehicle);
 
             return Ok(updatedVehicle);
         }

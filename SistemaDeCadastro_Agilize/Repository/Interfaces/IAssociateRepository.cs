@@ -1,13 +1,14 @@
-﻿using SistemaDeCadastro_Agilize.Models;
+﻿using SistemaDeCadastro_Agilize.Models.Tasks;
 
 namespace SistemaDeCadastro_Agilize.Repository.Interfaces
 {
     public interface IAssociateRepository
     {
-        Task<List<AssociateModel>> BuscarTodosAssociados();
-        Task<AssociateModel> BuscarAssociadoPorCpf(long CpfPerson);
-        Task<AssociateModel> BuscarPorId(long IdAssociate);
-        Task<List<VehicleModel>> BuscarAssociadosComVeiculos(long CpfPerson);
-        Task<AssociateModel> AtualizarAssociate(AssociateModel associate, long IdAssociate);
+        Task<AssociateModel> FeathIdAssociate(long IdAssociate);
+        Task<AssociateModel> FeathAssociateCPF(long CpfPerson);
+        Task<AssociateDadosVehicleModel> RegisterAssociateAndVehicle(AssociateDadosVehicleModel associateDados);
+        Task<List<AssociateModel>> ListAssociate(); 
+        Task<List<RegisterVehicleModel>> FeathAssociateAndVehicle(long CpfPerson);
+        Task<AssociateModel> UpdateAssociate(AssociateModel associate, long IdAssociate);
     }
 }

@@ -1,4 +1,4 @@
-﻿using SistemaDeCadastro_Agilize.Models;
+﻿using SistemaDeCadastro_Agilize.Models.Tasks;
 
 namespace SistemaDeCadastro_Agilize.Repository.Interfaces
 {

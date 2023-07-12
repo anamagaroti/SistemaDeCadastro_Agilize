@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SistemaDeCadastro_Agilize.Models;
+using SistemaDeCadastro_Agilize.Models.Tasks;
 using SistemaDeCadastro_Agilize.Repository.Interfaces;
 
 namespace SistemaDeCadastro_Agilize.Controllers

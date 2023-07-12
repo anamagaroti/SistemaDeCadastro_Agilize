@@ -21,6 +21,7 @@ namespace SistemaDeCadastro_Agilize
             builder.Services.AddScoped<IAssociateRepository, AssociateRepository>();
             builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
             builder.Services.AddScoped<ICommercialPartnerRepository, CommercialPartnerRepository>();
+            builder.Services.AddScoped<IPositionRepository, PositionRepository>();
             builder.Services.AddScoped<IAssociateVehicleRepository, AssociateVehicleRepository>();
 
             builder.Services.AddEntityFrameworkNpgsql().AddDbContext<SistemasCadastroDBContex>(

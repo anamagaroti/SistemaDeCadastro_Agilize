@@ -9,7 +9,7 @@ namespace SistemaDeCadastro_Agilize.Data.Map
         public void Configure(EntityTypeBuilder<PositionModel> builder)
         {
             builder.HasKey(x => x.IdPosition);
-            builder.HasAlternateKey(x => x.IdTask);
+            builder.HasMany(x => x.Partners).WithOne(x => x.Position).HasForeignKey(x => x.IdCP);
             builder.Property(X => X.NamePosition);
 
         }

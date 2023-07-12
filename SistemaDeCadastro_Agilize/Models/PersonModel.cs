@@ -2,7 +2,6 @@
 {
     public class PersonModel
     {
-        public long IdPerson { get; set; }
         public string? NamePerson { get; set; }
         public int TelPerson { get; set; }
         public string? EmailPerson { get; set; }
@@ -18,6 +17,5 @@
         public string? NeighborhoodPerson { get; set; }
         public string? CityPerson { get; set; }
         public string? StatePerson { get; set; }
-        public string? LandmarkPerson { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SistemaDeCadastro_Agilize.Data;
-using SistemaDeCadastro_Agilize.Models;
+using SistemaDeCadastro_Agilize.Models.Tasks;
 using SistemaDeCadastro_Agilize.Repository.Interfaces;
 using System.Drawing;
 
@@ -50,7 +50,7 @@ namespace SistemaDeCadastro_Agilize.Repository
             AssociateModel associate = await _dbContext.Associate.FirstOrDefaultAsync
                 (x => x.IdAssociate == IdAssociate);
 
-            VehicleModel vehicle = await _dbContext.Vehicle.FirstOrDefaultAsync
+            RegisterVehicleModel vehicle = await _dbContext.Vehicle.FirstOrDefaultAsync
                 (x => x.IdVehicle == IdVehicle);
 
             if (associate == null || vehicle == null)

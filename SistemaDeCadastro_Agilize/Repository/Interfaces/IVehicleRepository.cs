@@ -1,14 +1,13 @@
-﻿using SistemaDeCadastro_Agilize.Models;
+﻿using SistemaDeCadastro_Agilize.Models.Tasks;
 
 namespace SistemaDeCadastro_Agilize.Repository.Interfaces
 {
     public interface IVehicleRepository
     {
-        Task<List<VehicleModel>> BuscarTodosVeiculos();
-        Task<VehicleModel> BuscarPorPlacaVehicle(string Plate, long IdAssociate);
-        Task<VehicleModel> BuscarVehiclePorId(long IdVehicle);
-        Task<AssociateModel> AdicionarNovoVeiculo(long CpfPerson, List<VehicleModel> vehicle);
-        Task<VehicleModel> AtualizarVehicle(VehicleModel vehicle, long IdVehicle);
-        Task<bool> ExcluirVehicle(long IdVehicle);
+        Task<List<RegisterVehicleModel>> ListVehicle();
+        Task<RegisterVehicleModel> RegisterVehicle(RegisterVehicleModel vehicle);
+        Task<RegisterVehicleModel> FitchVehicle(long IdVehicle);
+        Task<RegisterVehicleModel> UpdateVehicle(RegisterVehicleModel vehicle, long IdVehicle);
+        Task<bool> DeleteVehicle(long IdVehicle);
     }
 }

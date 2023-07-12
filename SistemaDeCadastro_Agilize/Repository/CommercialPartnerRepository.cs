@@ -13,61 +13,65 @@ namespace SistemaDeCadastro_Agilize.Repository
         {
             _dbContext = sistemasCadastroDBContex;
         }
-        public async Task<CommercialPartnerModel> BuscarPorId(long IdEmployee)
+        public async Task<CommercialPartnerModel> BuscarPorIdCP(long IdCP)
         {
-            return await _dbContext.Employee.FirstOrDefaultAsync(x => x.IdEmployee == IdEmployee);
+            return await _dbContext.CP.FirstOrDefaultAsync(x => x.IdCP == IdCP);
         }
 
-        public async Task<List<CommercialPartnerModel>> BuscarTodosFuncionarios()
+        public async Task<List<CommercialPartnerModel>> BuscarTodosCP()
         {
-            return await _dbContext.Employee.ToListAsync();
+            return await _dbContext.CP.ToListAsync();
         }
-        public async Task<CommercialPartnerModel> Adicionar(CommercialPartnerModel employee)
+        public async Task<CommercialPartnerModel> CadastrarCP(CommercialPartnerModel cp)
         {
-            await _dbContext.AddAsync(employee);
+            await _dbContext.AddAsync(cp);
             await _dbContext.SaveChangesAsync();
 
-            return employee;
+            return cp;
         }
 
-        public async Task<CommercialPartnerModel> Atualizar(CommercialPartnerModel employee, long IdEmployee)
+        public async Task<CommercialPartnerModel> EditarCP(CommercialPartnerModel cp, long IdCP)
         {
-            CommercialPartnerModel employeePorId = await BuscarPorId(IdEmployee);
+            CommercialPartnerModel CPPorId = await BuscarPorIdCP(IdCP);
 
-            if (employeePorId == null)
+            if (CPPorId == null)
             {
                 throw new Exception("O funcionario que deseja encontrar não esta cadastrado em nossa base de dados.");
             }
-            employeePorId.NamePerson = employee.NamePerson;
-            employeePorId.TelPerson = employee.TelPerson;
-            employeePorId.EmailPerson = employee.EmailPerson;
-            employeePorId.CpfPerson = employee.CpfPerson;
-            employeePorId.SexoPerson = employee.SexoPerson;
-            employeePorId.RgPerson = employee.RgPerson;
-            employeePorId.DateBornPerson = employee.DateBornPerson;
-            employeePorId.Address = employee.Address;
-            employeePorId.NeighborhoodPerson = employee.NeighborhoodPerson;
-            employeePorId.NumberPerson = employee.NumberPerson;
-            employeePorId.UFPerson = employee.UFPerson;
-            employeePorId.CepPerson = employee.CepPerson;
+            CPPorId.NamePerson = cp.NamePerson;
+            CPPorId.TelPerson = cp.TelPerson;
+            CPPorId.EmailPerson = cp.EmailPerson;
+            CPPorId.CpfPerson = cp.CpfPerson;
+            CPPorId.SexoPerson = cp.SexoPerson;
+            CPPorId.RgPerson = cp.RgPerson;
+            CPPorId.DateBornPerson = cp.DateBornPerson;
+            CPPorId.NationalityPerson = cp.NationalityPerson;
+            CPPorId.StreetPerson = cp.StreetPerson;
+            CPPorId.CepPerson = cp.CepPerson;
+            CPPorId.NumberPerson = cp.NumberPerson;
+            CPPorId.ComplementPerson = cp.ComplementPerson;
+            CPPorId.NeighborhoodPerson = cp.NeighborhoodPerson;
+            CPPorId.CityPerson = cp.CityPerson;
+            CPPorId.StatePerson = cp.StatePerson;
+            CPPorId.IdPosition = cp.IdPosition;
 
-            _dbContext.Employee.Update(employeePorId);
+            _dbContext.CP.Update(CPPorId);
 
             await _dbContext.SaveChangesAsync();
 
-            return employeePorId;
+            return CPPorId;
         }
 
-        public async Task<bool> Excluir(long IdEmployee)
+        public async Task<bool> ExcluirCP(long IdCP)
         {
-            CommercialPartnerModel employeePorId = await BuscarPorId(IdEmployee);
+            CommercialPartnerModel CPPorId = await BuscarPorIdCP(IdCP);
 
-            if (employeePorId == null)
+            if (CPPorId == null)
             {
-                throw new Exception("O funcionario que deseja encontrar não esta cadastrado em nossa base de dados.");
+                throw new Exception("O parceiro comercial que deseja encontrar não esta cadastrado em nossa base de dados.");
             }
 
-            _dbContext.Employee.Remove(employeePorId);
+            _dbContext.CP.Remove(CPPorId);
             await _dbContext.SaveChangesAsync();
             return true;
         }
