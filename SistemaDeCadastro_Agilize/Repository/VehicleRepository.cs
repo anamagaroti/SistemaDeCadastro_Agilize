@@ -41,6 +41,7 @@ namespace SistemaDeCadastro_Agilize.Repository
 
         public async Task<RegisterVehicleModel> RegisterVehicle(RegisterVehicleModel vehicle)
         {
+            vehicle.IdTask = 3;
             await _dbContext.Vehicle.AddAsync(vehicle);
             await _dbContext.SaveChangesAsync();
 
@@ -55,6 +56,18 @@ namespace SistemaDeCadastro_Agilize.Repository
             {
                 throw new Exception("Não foi possível editar esse veículo");
             }
+
+            vehicleModel.TypeVehicle = vehicle.TypeVehicle;
+            vehicleModel.Brand = vehicle.Brand;
+            vehicleModel.Version = vehicle.Version;
+            vehicleModel.Fuel = vehicle.Fuel;
+            vehicleModel.Year = vehicle.Year;
+            vehicleModel.Model = vehicle.Model;
+            vehicleModel.NumberDoors = vehicle.NumberDoors;
+            vehicleModel.FipeCode = vehicle.FipeCode;
+            vehicleModel.FipeValue = vehicle.FipeValue;
+            vehicleModel.VehicleValue = vehicle.VehicleValue;
+            vehicleModel.VehicleNationality = vehicle.VehicleNationality;
 
             _dbContext.Vehicle.Update(vehicleModel);
             await _dbContext.SaveChangesAsync();

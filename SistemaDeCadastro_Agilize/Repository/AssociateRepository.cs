@@ -106,6 +106,7 @@ namespace SistemaDeCadastro_Agilize.Repository
             return await _dbContext.Associate.ToListAsync();
         }
 
+        //codigo duvidoso
         public async Task<List<AssociateDadosVehicleModel>> FeathDadosVehicle(long IdAssociate)
         {
             AssociateDadosVehicleModel associateDados = new AssociateDadosVehicleModel();
@@ -117,45 +118,52 @@ namespace SistemaDeCadastro_Agilize.Repository
                 throw new Exception("Esse associado não está mais cadastrado na base de dados.");
             }
 
-            List<DadosVehicleModel> dados = await _dbContext.Dados.Where(x => x.IdAssociate == IdAsso.IdAssociate).ToListAsync();
-            associateDados.ListVehicle = dados;
+            var dado = associateDados.dadosVehicleModel  = await _dbContext.Dados.FirstOrDefaultAsync(x => x.IdAssociate == IdAsso.IdAssociate);
+            
 
+            var vehicle = associateDados.registerVehicle  = await _dbContext.Vehicle.FirstOrDefaultAsync(x => x.IdVehicle == dado.IdRegisterVehicle);
+
+            List<DadosVehicleModel> dados = await _dbContext.Dados.Where(x => x.IdAssociate == IdAsso.IdAssociate 
+            && x.IdAssociate == dado.IdAssociate 
+            && x.IdRegisterVehicle == vehicle.IdVehicle).ToListAsync();
 
 
             return new List<AssociateDadosVehicleModel> { associateDados };
         }
 
-
         public async Task<AssociateModel> UpdateAssociate(AssociateModel associate, long IdAssociate)
         {
-            AssociateModel existingAssociate = await FeathIdAssociate(IdAssociate);
+            AssociateModel Asso = await FeathIdAssociate(IdAssociate);
 
-            if (existingAssociate == null)
+            if (Asso == null)
             {
                 throw new Exception("O associado ou veículo que deseja atualizar não existe mais em nossa base de dados.");
             }
 
-            existingAssociate.NamePerson = associate.NamePerson;
-            existingAssociate.TelPerson = associate.TelPerson;
-            existingAssociate.EmailPerson = associate.EmailPerson;
-            existingAssociate.CpfPerson = associate.CpfPerson;
-            existingAssociate.SexoPerson = associate.SexoPerson;
-            existingAssociate.RgPerson = associate.RgPerson;
-            existingAssociate.DateBornPerson = associate.DateBornPerson;
-            existingAssociate.Address = associate.Address;
-            existingAssociate.NeighborhoodPerson = associate.NeighborhoodPerson;
-            existingAssociate.NumberPerson = associate.NumberPerson;
-            existingAssociate.UFPerson = associate.UFPerson;
-            existingAssociate.CepPerson = associate.CepPerson;
-            existingAssociate.ChnAssociate = associate.ChnAssociate;
-            existingAssociate.ValidadeAssociate = associate.ValidadeAssociate;
-            existingAssociate.CategoryAssociate = associate.CategoryAssociate;
-            existingAssociate.FirstLicenseAssociate = associate.FirstLicenseAssociate;
-            existingAssociate.NationalityAssociate = associate.NationalityAssociate;
+            Asso.NamePerson = associate.NamePerson;
+            Asso.TelPerson = associate.TelPerson;
+            Asso.EmailPerson = associate.EmailPerson;
+            Asso.CpfPerson = associate.CpfPerson;
+            Asso.SexoPerson = associate.SexoPerson;
+            Asso.RgPerson = associate.RgPerson;
+            Asso.DateBornPerson = associate.DateBornPerson;
+            Asso.NationalityPerson = associate.NationalityPerson;
+            Asso.StreetPerson = associate.StreetPerson;
+            Asso.CepPerson = associate.CepPerson;
+            Asso.NumberPerson = associate.NumberPerson;
+            Asso.ComplementPerson = associate.ComplementPerson;
+            Asso.NeighborhoodPerson = associate.NeighborhoodPerson;
+            Asso.CityPerson = associate.CityPerson;
+            Asso.StatePerson = associate.StatePerson;
+            Asso.ChnAssociate = associate.ChnAssociate;
+            Asso.ValidadeCnh = associate.ValidadeCnh;
+            Asso.CategoryCnh = associate.CategoryCnh;
+            Asso.FirstLicenseCnh = associate.FirstLicenseCnh;
+            Asso.NationalityCnh = associate.NationalityCnh;
 
             await _dbContext.SaveChangesAsync();
 
-            return existingAssociate;
+            return Asso;
         }
     }
 }
